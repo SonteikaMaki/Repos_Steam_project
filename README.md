@@ -1,51 +1,127 @@
-# Steam Market & Player Insights Analysis
+# Анализ рынка игр Steam: цены, отзывы и пользовательские оценки
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" />
-  <img src="https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white" />
-  <img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Seaborn-3776AB?style=for-the-badge&logo=seaborn&logoColor=white" />
-  <img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white" />
-</p>
+**Data Analytics · Python · SQL · EDA · Statistical Testing**
 
-## Project Overview
-An end-to-end data analytics project examining the PC gaming market and user behavior on **Steam**. The project demonstrates a full Data Science & Analytics workflow: from raw data preprocessing and exploratory analysis to statistical hypothesis testing and designing advanced SQL data marts.
+Учебный аналитический проект, посвящённый исследованию игр в Steam. С помощью Python и SQL изучаются ценовые сегменты, пользовательские оценки и количество отзывов.
+
+## 1. Цель исследования
+
+Изучить, как различаются бесплатные и платные игры по пользовательским оценкам, а также сравнить ценовые сегменты по количеству игр и отзывов.
+
+**Основные вопросы:**
+- Отличаются ли пользовательские оценки бесплатных и платных игр?
+- Как распределяются игры по ценовым сегментам?
+- Какие ценовые сегменты получают больше пользовательских отзывов?
+
+## 2. Данные
+
+Для исследования используется датасет игр Steam.
+
+Данные включают информацию о ценах, пользовательских оценках, количестве отзывов и других характеристиках игр.
+
+Анализ выполнен в двух Jupyter Notebook:
+
+- [1_EDA.ipynb](notebooks/1_EDA.ipynb) — предобработка данных, визуализация и статистическая проверка гипотезы.
+- [2_SQL.ipynb](notebooks/2_SQL.ipynb) — анализ ценовых сегментов с помощью SQLite и SQL-запросов.
+
+Для SQL-анализа используется база `steam_market.db`.
+
+## 3. EDA и статистический анализ
+
+В первой части проекта проведены:
+
+- Загрузка и предварительное изучение данных.
+- Проверка качества данных и предобработка.
+- Исследование распределения цен и пользовательских оценок.
+- Сравнение бесплатных и платных игр.
+- Проверка статистической гипотезы.
+
+**Гипотеза:** распределения доли положительных отзывов у бесплатных и платных игр различаются.
+
+Для проверки использован **критерий Манна — Уитни**. Дополнительно применён **бутстрап с 10 000 итераций** для оценки разницы средних долей положительных отзывов и построения 95% доверительного интервала.
+
+Эти методы позволяют оценить различия между группами с разных сторон: критерий Манна — Уитни сравнивает распределения, а бутстрап помогает оценить неопределённость разницы средних.
+
+## 4. SQL-анализ
+
+Во второй части проекта исследованы ценовые сегменты игр Steam.
+
+С помощью SQL выполнены:
+
+- Группировка игр по ценовым категориям.
+- Подсчёт количества игр в каждом сегменте.
+- Агрегация пользовательских отзывов.
+- Расчёт долей сегментов и сравнение результатов.
+- Визуализация полученных данных с помощью Python.
+
+**Использованные конструкции SQL:** `SELECT`, `WHERE`, `GROUP BY`, `CASE WHEN`, `WITH` (CTE), оконные функции `SUM() OVER()`.
+
+## 5. Основные результаты и выводы
+
+**EDA и статистическая проверка гипотезы**
+
+- Средняя доля положительных отзывов у бесплатных игр — **71,9%**, у платных — **71,4%**.
+- Критерий Манна — Уитни выявил статистически значимые различия распределений (p = 0,0000269).
+- Разница средних составила **+0,51 п.п.** в пользу бесплатных игр.
+- Бутстрап с 10 000 итераций дал 95% доверительный интервал **[−0,24; +1,27] п.п.**, включающий ноль.
+
+Таким образом, различия распределений обнаружены, но убедительных оснований утверждать, что средняя доля положительных отзывов различается, нет.
+
+**SQL-анализ ценовых сегментов**
+
+- Исследовано **27 075 игр**.
+- Самый многочисленный сегмент — игры стоимостью до $5: **13 293 игры (49,10%)**.
+- Бесплатные игры составляют **9,46%** выборки.
+- Наибольшее среднее количество положительных отзывов наблюдается у игр дороже $15 — **3 898 отзывов на игру**.
+
+**Практический вывод**
+
+При исследовании рынка Steam важно учитывать не только цену, но и пользовательские оценки, количество отзывов и другие характеристики игр. Обнаруженные связи не доказывают причинное влияние цены на оценки или популярность.
+
+## 6. Технологии
+
+**Python:** Pandas, NumPy, SciPy, Matplotlib, Seaborn.
+
+**SQL:** SQLite, CTE, агрегирующие функции, оконные функции.
+
+**Инструменты:** Jupyter Notebook, VS Code, Git, GitHub.
+
+## 7. Структура проекта
+
+```text
+.
+├── data/
+│   └── steam_market.db
+├── notebooks/
+│   ├── 1_EDA.ipynb
+│   └── 2_SQL.ipynb
+├── .gitignore
+├── requirements.txt
+└── README.md
+```
+
+## 8. Как запустить проект
+
+**1. Клонировать репозиторий:**
+
+```bash
+git clone https://github.com/SonteikaMaki/Repos_Steam_project.git
+cd Repos_Steam_project
+```
+
+**2. Установить зависимости:**
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+**3. Открыть ноутбуки в Jupyter Notebook или VS Code:**
+
+1. `1_EDA.ipynb` — исследование данных и проверка гипотезы.
+2. `2_SQL.ipynb` — анализ ценовых сегментов с помощью SQL.
+
+Для запуска SQL-анализа необходим файл `data/steam_market.db`.
 
 ---
 
-## Repository Structure
-The project is structured into clear, logical modules following Clean Code practices:
-- **`src/1_EDA.ipynb`** — Exploratory Data Analysis (EDA), data cleaning, price distribution research, and genre trends using `Pandas` and `Seaborn`.
-- **`src/2_SQL.ipynb`** — SQLite relational database pipeline: creating a local database, writing advanced analytical queries using **CTEs (`WITH`)**, **window functions (`RANK()`, `SUM() OVER()`)**, and conditional segmentation (`CASE WHEN`).
-- **`src/steam_market.db`** — Local database file (automatically generated when running the notebooks, excluded from Git tracking via `.gitignore`).
-
----
-
-## Tech Stack
-- **Languages:** Python, SQL (SQLite)
-- **Data & Statistics:** Pandas, NumPy, SciPy (hypothesis testing)
-- **Visualization:** Matplotlib, Seaborn
-- **Tools:** Jupyter Notebook, Git, VS Code
-
----
-
-## Key Findings & Business Insights
-
-### 1. Market Distribution by Price Segments
-- Approximately **50% of the market** consists of budget games priced under $5. This confirms low barriers to entry and intense competition within the indie segment.
-- Free-to-play (*Free*) titles account for around 10% of the market, serving as the primary acquisition engine for driving mass engagement.
-
-### 2. Player Engagement Paradox (Review Analysis)
-Comparing average positive and negative reviews across price tiers revealed key behavioral patterns:
-- Despite representing the largest volume of games, budget titles (under $5) accumulate the lowest average review count.
-- **Key Insight:** User engagement and activity peak at two distinct extremes:
-  * **Free Games (*Free*)** — driven by maximum audience reach and low adoption friction.
-  * **Premium Segment (Over $15)** — players who deliberately buy higher-priced games demonstrate much stronger engagement, complete titles, and actively share feedback (yielding both higher positive sentiment and a proportional volume of critique).
-
----
-
-## How to Run Locally
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/SonteikaMaki/Repos_Steam_project.git](https://github.com/SonteikaMaki/Repos_Steam_project.git)
+*Учебный проект для портфолио начинающего аналитика данных / продуктового аналитика.*
